@@ -31,24 +31,6 @@
 
 ---
 
-## Archivos del proyecto
-
-```
-Red_Pitaya_examples/
-├── README.md                   ← este archivo
-├── señal_ae.py                 ← señal AE simulada + FFT (aprendizaje)
-├── eventos_ae.py               ← detección de múltiples eventos (aprendizaje)
-├── señales_reales.py           ← diagnóstico de problemas comunes (aprendizaje)
-├── analisis_eventos.py         ← análisis de tendencias en memoria (aprendizaje)
-├── filtro_ae.py                ← filtro Butterworth 100–450 kHz (listo si hace falta)
-└── ADC/
-    ├── pipeline_ae_v2.py       ← pipeline principal — ESTE ES EL QUE SE USA
-    ├── leer_ae.py              ← lectura simple del HDF5
-    └── analisis_desde_hdf5.py ← análisis y gráficos desde HDF5
-```
-
----
-
 ## Estructura del archivo HDF5
 
 ```
