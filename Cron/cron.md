@@ -1,4 +1,4 @@
-# Guía rápida de Cron
+# Cron
 
 Cron es un servicio que ejecuta comandos o scripts automáticamente en horarios programados.
 
