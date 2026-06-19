@@ -200,10 +200,10 @@ def configurar_stemlab():
     Si se pierden eventos débiles: bajarlo.
     """
     # rp.rp_Init()
-    # rp.rp_AcqSetGain(rp.RP_CH_1, rp.RP_LOW)
+    # rp.rp_AcqSetGain(rp.RP_CH_1, rp.RP_HIGH)
     # rp.rp_AcqSetDecimation(DECIMACION)
     # rp.rp_AcqSetTriggerSrc(rp.RP_TRIG_SRC_CHA_PE)  # trigger por flanco positivo en CH1
-    # rp.rp_AcqSetTriggerLevel(rp.RP_T_CH_1, 0.05)   # 50 mV
+    # rp.rp_AcqSetTriggerLevel(rp.RP_T_CH_1, 0.5)   # 50 mV
     # rp.rp_AcqSetTriggerDelay(-1000)  # negativo = muestras ANTES del trigger
     # rp.rp_AcqStart()
 

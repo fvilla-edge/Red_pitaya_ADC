@@ -6,9 +6,11 @@
 import rp
 import numpy as np
 
-GANANCIA   = rp.RP_LOW    # RP_LOW = ±1V, cambiar a RP_HIGH si hay clipping
+GANANCIA   = rp.RP_HIGH   # RP_LOW = ±1V, RP_HIGH = ±20V
+                          # VS150-RI con DCPL2 puede llegar a 15V pico a pico — usar HIGH
 DECIMACION = 64
 N          = 16384
+LIMITE_ADC = 19.5         # V — umbral de clipping para RP_HIGH (margen de 0.5V sobre ±20V)
 
 print("Iniciando diagnóstico...")
 print(f"Ganancia: {'±1V (RP_LOW)' if GANANCIA == rp.RP_LOW else '±20V (RP_HIGH)'}")
@@ -31,18 +33,20 @@ signal = np.array(buff)
 rp.rp_Release()
 
 # ── Resultados ─────────────────────────────────────────────────────
-offset   = np.mean(signal) * 1000   # en mV
+offset   = np.mean(signal) * 1000
 rms      = np.sqrt(np.mean(signal**2))
-clipping = np.sum((signal >= 0.99) | (signal <= -0.99))
+clipping = np.sum((signal >= LIMITE_ADC) | (signal <= -LIMITE_ADC))
+pico     = signal.max() - signal.min()
 
 print(f"Offset:   {offset:.1f} mV  {'⚠ corregir — verificar DCPL2' if abs(offset) > 50 else 'OK'}")
-print(f"RMS:      {rms:.4f} V      {'⚠ señal alta sin evento' if rms > 0.05 else 'OK'}")
+print(f"RMS:      {rms:.4f} V      {'⚠ señal alta sin evento' if rms > 0.1 else 'OK'}")
 print(f"Max:      {signal.max():.4f} V")
 print(f"Min:      {signal.min():.4f} V")
-print(f"Clipping: {clipping} muestras  {'⚠ cambiar a RP_HIGH' if clipping > 0 else 'OK'}")
+print(f"Pico a pico: {pico:.4f} V")
+print(f"Clipping: {clipping} muestras  {'⚠ señal supera ±20V — problema de hardware' if clipping > 0 else 'OK'}")
 
 print("─" * 40)
-if abs(offset) < 50 and rms < 0.05 and clipping == 0:
+if abs(offset) < 50 and rms < 0.1 and clipping == 0:
     print("Todo OK — podés correr el pipeline")
 else:
     print("Hay problemas — revisá la tabla del README antes de continuar")
